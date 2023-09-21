@@ -5,6 +5,11 @@ function App() {
   return (
     <>
       <Navbar/>
+
+      {/* se recorre a la derecha por la navbar  */}
+      <div className="ml-24 p-3">
+        <Header/> 
+      </div>
     </>
   );
 }
