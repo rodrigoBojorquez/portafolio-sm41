@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Header from "../components/Header";
 import Navbar from "../components/Navbar"
 
@@ -41,10 +41,12 @@ function EstadoDelTiempo() {
   ];
 
   const [datos, setDatos] = useState([]);
-  const [datosFiltrados, setDatosFiltrados] =useState([])
+  const [datosFiltrados, setDatosFiltrados] = useState([])
+  const [ciudad, setCiudad] = useState({});
   const [mostrarDatos, setMostrarDatos] = useState(false);
   const [estadoActual, setEstadoActual] = useState("");
-  
+  const [ciudadActual, setCiudadActual] = useState("")
+
   // consumir api
   const consultarDatos = () => {
     return fetch(url)
@@ -54,13 +56,13 @@ function EstadoDelTiempo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const ciudades = datos.filter((ciudad) => estadoActual === ciudad.state)
-
-    if(estadoActual.length > 0) {
-      setDatosFiltrados(ciudades);
-      console.log(datosFiltrados);
+    if(estadoActual.length > 0 && ciudadActual.length > 0){
+      const ciudadSeleccionada = datosFiltrados.find(ciudad => ciudad.name === ciudadActual);
+      setCiudad(ciudadSeleccionada);
       setMostrarDatos(true);
+    }
+    else {
+      setMostrarDatos(false);
     }
   }
 
@@ -69,80 +71,96 @@ function EstadoDelTiempo() {
     consultarDatos()
   }, [])
 
+  useEffect(() => {
+    const ciudadesFiltradas = datos.filter((ciudad) => estadoActual === ciudad.state);
+    if (estadoActual.length > 0) {
+      setDatosFiltrados(ciudadesFiltradas);
+    }
+  }, [estadoActual])
+
   return (
     <>
       <Navbar />
 
       {/* se recorre a la derecha por la navbar  */}
       <div className="ml-24 p-2">
-        <Header 
-          titulo = {"Estado del tiempo"}
+        <Header
+          titulo={"Estado del tiempo"}
         />
 
-        <main className='grid'>
+        <main className=''>
 
           {/* form row  */}
-          <div className='flex justify-center'>
-            <form 
+          <div className='flex justify-center my-10'>
+            <form
               onSubmit={handleSubmit}
-              className='bg-slate-100 shadow-md w-1/3 self-center p-5 rounded-md'
+              className='bg-slate-100 shadow-md w-1/3 p-5 rounded-md flex flex-col items-center'
             >
               <h3 className='text-center text-2xl text-[#112D4E]'>Consulta el estado del tiempo</h3>
-              <div className='flex flex-col my-4'>
+              <div className='flex flex-col my-4 w-10/12'>
                 <label htmlFor="selectEstado" className='text-xl text-[#112D4E]'>Estado</label>
-                <select 
-                  onChange={e => setEstadoActual(e.target.value)} 
+                <select
+                  onChange={e => setEstadoActual(e.target.value)}
+                  id='selectEstado'
                   className='rounded-md text-center py-2'
                 >
-                <option id='selectEstado' value="">-- Selecciona uno --</option>
-                {
-                  estadosMX.map(opcion => (
-                    <option key={opcion.id} value={opcion.name}>
-                      {opcion.name}
-                    </option>
-                  ))
-                }
+                  <option value="">-- Selecciona uno --</option>
+                  {
+                    estadosMX.map(opcion => (
+                      <option key={opcion.id} value={opcion.name}>
+                        {opcion.name}
+                      </option>
+                    ))
+                  }
                 </select>
+              </div>
+              <div className='flex flex-col my-4 w-10/12'>
+                <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
+                <select 
+                  onChange={e => {
+                    setCiudadActual(e.target.value);
+                  }}
+                  id='selectCiudad'
+                  className='rounded-md text-center py-2'
+                >
+                  <option value="">-- Selecciona una Ciudad --</option>
+                  {
+                    datosFiltrados.map(opcion => (
+                      <option key={opcion.id} value={opcion.name}>
+                        {opcion.name}
+                      </option>
+                    ))
+                  }
+                </select>
+              </div>
 
-                <input 
-                  type="submit" 
+                <input
+                  type="submit"
                   value="Buscar"
                   className='bg-blue-400 text-white font-semibold p-2 w-1/2 m-auto mt-7 rounded-md hover:cursor-pointer'
                 />
-              </div>
             </form>
           </div>
-          
+
           {/* results row */}
           {mostrarDatos &&
-          <div>
-          </div>
+
+            <div className='mb-10'>
+              <div className='bg-slate-100 shadow-md w-1/2 m-auto p-3'>
+                <h3 className='text-2xl font-medium text-center text-[#112D4E]'>{ciudad.name}</h3>
+
+                <p className='text-center font-medium text-xl text-[#112D4E] mt-2 mb-5'>{ciudad.skydescriptionlong}</p>
+
+                <ul className='flex flex-col gap-3 items-center text-[#112D4E] italic'>
+                  <li>Temperatura:  {ciudad.tempc}°</li>
+                  <li>Probabilidad de precipitacion:  {ciudad.probabilityofprecip}%</li>
+                  <li>Humedad:  {ciudad.relativehumidity}%</li>
+                  <li>Viento: {ciudad.windspeedkm}km</li>
+                </ul>
+              </div>
+            </div>
           }
 
-
-          {/* <select onChange={e => setEstadoActual(e.target.value)}>
-            <option value="">-- Selecciona un estado --</option>
-            {
-              estadosMX.map(opcion => (
-                <option key={opcion.id} value={opcion.name}>
-                  {opcion.name}
-                </option>
-              ))
-            }
-          </select>
-
-          {estadoActual}
-
-          <h1>Estado del tiempo</h1>
-          */}
-          {
-            datos.map((ciudad, index) => (
-              <div>
-                <p>{ciudad.name} - <i>{ciudad.skydescriptionlong}</i></p>
-              </div>
-            ))
-          } 
-            
         </main>
       </div>
     </>
