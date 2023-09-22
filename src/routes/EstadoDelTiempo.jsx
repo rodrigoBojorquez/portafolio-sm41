@@ -42,7 +42,7 @@ function EstadoDelTiempo() {
     { id: 32, name: 'Zacatecas' }
   ];
 
-  const [datos, setDatos] = useState([]);
+  const [cargando, setCargando] = useState(false);
   const [datosFiltrados, setDatosFiltrados] = useState([])
   const [ciudad, setCiudad] = useState({});
   const [mostrarDatos, setMostrarDatos] = useState(false);
@@ -51,11 +51,18 @@ function EstadoDelTiempo() {
   const [error, setError] = useState(false);
 
   // consumir api
-  const consultarDatos = () => {
-    return fetch(url)
-      .then(res => res.json())
-      .then(condicionAtm => setDatos(condicionAtm.results))
-  }
+  const consultarDatos = async () => {
+    try {
+      setCargando(true);
+      const response = await fetch(`${url}?state=${estadoActual}`);
+      const condicionAtm = await response.json();
+      setDatosFiltrados(condicionAtm.results);
+      setCargando(false)
+    } catch (error) {
+      // Manejar errores aquí, por ejemplo:
+      console.error("Error al consultar datos:", error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,16 +78,10 @@ function EstadoDelTiempo() {
     }
   }
 
-  // solo se ejecuta una vez
   useEffect(() => {
-    consultarDatos()
-  }, [])
 
-  useEffect(() => {
-    const ciudadesFiltradas = datos.filter((ciudad) => estadoActual === ciudad.state);
-    if (estadoActual.length > 0) {
-      setDatosFiltrados(ciudadesFiltradas);
-    }
+    consultarDatos()
+
   }, [estadoActual])
 
   return (
@@ -120,23 +121,30 @@ function EstadoDelTiempo() {
                 </select>
               </div>
               <div className='flex flex-col my-4 w-10/12'>
-                <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
-                <select
-                  onChange={e => {
-                    setCiudadActual(e.target.value);
-                  }}
-                  id='selectCiudad'
-                  className='rounded-md text-center py-2'
-                >
-                  <option value="">-- Selecciona una Ciudad --</option>
-                  {
-                    datosFiltrados.map(opcion => (
-                      <option key={opcion.id} value={opcion.name}>
-                        {opcion.name}
-                      </option>
-                    ))
-                  }
-                </select>
+                { !cargando ?
+                  <>
+                    <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
+                    <select
+                      onChange={e => {
+                        setCiudadActual(e.target.value);
+                      }}
+                      id='selectCiudad'
+                      className='rounded-md text-center py-2'
+                    >
+                      <option value="">-- Selecciona una Ciudad --</option>
+                      {
+                        datosFiltrados.map(opcion => (
+                          <option key={opcion.id} value={opcion.name}>
+                            {opcion.name}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </>
+                :
+                  <>
+                  </>
+                }
               </div>
 
               <input
@@ -173,7 +181,7 @@ function EstadoDelTiempo() {
           </div>
 
         </main>
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </>
   )
