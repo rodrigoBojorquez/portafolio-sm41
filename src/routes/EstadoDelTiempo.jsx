@@ -41,13 +41,27 @@ function EstadoDelTiempo() {
   ];
 
   const [datos, setDatos] = useState([]);
-  const [estadoActual, setEstadoActual] = useState("Quintana Roo");
+  const [datosFiltrados, setDatosFiltrados] =useState([])
+  const [mostrarDatos, setMostrarDatos] = useState(false);
+  const [estadoActual, setEstadoActual] = useState("");
   
   // consumir api
   const consultarDatos = () => {
     return fetch(url)
       .then(res => res.json())
       .then(condicionAtm => setDatos(condicionAtm.results))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const ciudades = datos.filter((ciudad) => estadoActual === ciudad.state)
+
+    if(estadoActual.length > 0) {
+      setDatosFiltrados(ciudades);
+      console.log(datosFiltrados);
+      setMostrarDatos(true);
+    }
   }
 
   // solo se ejecuta una vez
@@ -65,8 +79,48 @@ function EstadoDelTiempo() {
           titulo = {"Estado del tiempo"}
         />
 
-        <main>
-          <select onChange={e => setEstadoActual(e.target.value)}>
+        <main className='grid'>
+
+          {/* form row  */}
+          <div className='flex justify-center'>
+            <form 
+              onSubmit={handleSubmit}
+              className='bg-slate-100 shadow-md w-1/3 self-center p-5 rounded-md'
+            >
+              <h3 className='text-center text-2xl text-[#112D4E]'>Consulta el estado del tiempo</h3>
+              <div className='flex flex-col my-4'>
+                <label htmlFor="selectEstado" className='text-xl text-[#112D4E]'>Estado</label>
+                <select 
+                  onChange={e => setEstadoActual(e.target.value)} 
+                  className='rounded-md text-center py-2'
+                >
+                <option id='selectEstado' value="">-- Selecciona uno --</option>
+                {
+                  estadosMX.map(opcion => (
+                    <option key={opcion.id} value={opcion.name}>
+                      {opcion.name}
+                    </option>
+                  ))
+                }
+                </select>
+
+                <input 
+                  type="submit" 
+                  value="Buscar"
+                  className='bg-blue-400 text-white font-semibold p-2 w-1/2 m-auto mt-7 rounded-md hover:cursor-pointer'
+                />
+              </div>
+            </form>
+          </div>
+          
+          {/* results row */}
+          {mostrarDatos &&
+          <div>
+          </div>
+          }
+
+
+          {/* <select onChange={e => setEstadoActual(e.target.value)}>
             <option value="">-- Selecciona un estado --</option>
             {
               estadosMX.map(opcion => (
@@ -80,14 +134,14 @@ function EstadoDelTiempo() {
           {estadoActual}
 
           <h1>Estado del tiempo</h1>
-
+          */}
           {
             datos.map((ciudad, index) => (
               <div>
                 <p>{ciudad.name} - <i>{ciudad.skydescriptionlong}</i></p>
               </div>
             ))
-          }
+          } 
             
         </main>
       </div>
