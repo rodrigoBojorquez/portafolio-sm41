@@ -60,8 +60,10 @@ function EstadoDelTiempo() {
       <Navbar />
 
       {/* se recorre a la derecha por la navbar  */}
-      <div className="ml-24 p-3">
-        <Header />
+      <div className="ml-24 p-2">
+        <Header 
+          titulo = {"Estado del tiempo"}
+        />
 
         <main>
           <select onChange={e => setEstadoActual(e.target.value)}>

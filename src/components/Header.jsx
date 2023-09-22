@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Header() {
+function Header({titulo}) {
   return (
-    <header>
-      <h2>Estado del tiempo</h2>
+    <header className='h-20 flex items-center justify-center rounded-md bg-[#3F72AF]'>
+      <h2 className='text-3xl font-medium text-[#F9F7F7]'>{titulo}</h2>
     </header>
   )
 }
