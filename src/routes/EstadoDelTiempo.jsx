@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import Header from "../components/Header";
-import Navbar from "../components/Navbar"
-import Error from '../components/Error';
-import Footer from "../components/Footer"
+import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 function EstadoDelTiempo() {
 
@@ -79,8 +78,7 @@ function EstadoDelTiempo() {
   }
 
   useEffect(() => {
-
-    consultarDatos()
+    consultarDatos();
 
   }, [estadoActual])
 
@@ -181,8 +179,10 @@ function EstadoDelTiempo() {
           </div>
 
         </main>
-        {/* <Footer/> */}
+        <Footer></Footer>
       </div>
+
+
     </>
   )
 }
