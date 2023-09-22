@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Header from "../components/Header";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 function EstadoDelTiempo() {
 
@@ -68,7 +69,7 @@ function EstadoDelTiempo() {
 
   // solo se ejecuta una vez
   useEffect(() => {
-    consultarDatos()
+    consultarDatos();
   }, [])
 
   useEffect(() => {
@@ -162,7 +163,10 @@ function EstadoDelTiempo() {
           }
 
         </main>
+        <Footer></Footer>
       </div>
+
+
     </>
   )
 }
