@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from '../components/Footer';
+import Error from '../components/Error';
 
 function EstadoDelTiempo() {
 
@@ -87,7 +88,7 @@ function EstadoDelTiempo() {
       <Navbar />
 
       {/* se recorre a la derecha por la navbar  */}
-      <div className="ml-24 p-2">
+      <div className="ml-24 p-2 bg-slate-100">
         <Header
           titulo={"Estado del tiempo"}
         />

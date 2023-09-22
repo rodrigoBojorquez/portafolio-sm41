@@ -7,7 +7,7 @@ import weatherIcon from "../assets/icons/weather.svg"
 
 function Navbar() {
     return (
-        <nav className='fixed w-24 h-full top-0 left-0 bg-[#3F72AF] py-5'>
+        <nav className='fixed w-24 h-full top-0 left-0 bg-gray-900 py-5'>
 
             {/* home  */}
             <Link to="/"><img src={homeIcon} alt='Home' className='m-auto transform duration-500 hover:scale-105'/></Link>
