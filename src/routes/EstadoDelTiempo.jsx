@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from '../components/Footer';
 import Error from "../components/Error"
+import Cargando from '../components/Cargando';
 
 function EstadoDelTiempo() {
 
@@ -42,7 +43,7 @@ function EstadoDelTiempo() {
     { id: 32, name: 'Zacatecas' }
   ];
 
-  const [cargando, setCargando] = useState(true);
+  const [cargando, setCargando] = useState(false);
   const [datosFiltrados, setDatosFiltrados] = useState([])
   const [ciudad, setCiudad] = useState({});
   const [mostrarDatos, setMostrarDatos] = useState(false);
@@ -128,7 +129,7 @@ function EstadoDelTiempo() {
                   id='selectEstado'
                   className='rounded-md text-center py-2'
                 >
-                  <option value="">-- Selecciona uno --</option>
+                  <option value="">-- Selecciona un estado --</option>
                   {
                     estadosMX.map(opcion => (
                       <option key={opcion.id} value={opcion.name}>
@@ -172,6 +173,9 @@ function EstadoDelTiempo() {
 
           {/* results row */}
           <div className='mb-10'>
+            {cargando && 
+              <Cargando/>
+            }
             {error ?
               <Error>Todos los campos son necesarios</Error>
               :
