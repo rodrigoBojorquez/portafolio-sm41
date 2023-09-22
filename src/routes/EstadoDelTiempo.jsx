@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Header from "../components/Header";
 import Navbar from "../components/Navbar"
+import Error from '../components/Error';
 
 function EstadoDelTiempo() {
 
@@ -45,7 +46,8 @@ function EstadoDelTiempo() {
   const [ciudad, setCiudad] = useState({});
   const [mostrarDatos, setMostrarDatos] = useState(false);
   const [estadoActual, setEstadoActual] = useState("");
-  const [ciudadActual, setCiudadActual] = useState("")
+  const [ciudadActual, setCiudadActual] = useState("");
+  const [error, setError] = useState(false);
 
   // consumir api
   const consultarDatos = () => {
@@ -56,13 +58,15 @@ function EstadoDelTiempo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(estadoActual.length > 0 && ciudadActual.length > 0){
+    if (estadoActual.length > 0 && ciudadActual.length > 0) {
       const ciudadSeleccionada = datosFiltrados.find(ciudad => ciudad.name === ciudadActual);
       setCiudad(ciudadSeleccionada);
       setMostrarDatos(true);
+      setError(false);
     }
     else {
       setMostrarDatos(false);
+      setError(true);
     }
   }
 
@@ -88,7 +92,7 @@ function EstadoDelTiempo() {
           titulo={"Estado del tiempo"}
         />
 
-        <main className=''>
+        <main>
 
           {/* form row  */}
           <div className='flex justify-center my-10'>
@@ -116,7 +120,7 @@ function EstadoDelTiempo() {
               </div>
               <div className='flex flex-col my-4 w-10/12'>
                 <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
-                <select 
+                <select
                   onChange={e => {
                     setCiudadActual(e.target.value);
                   }}
@@ -134,18 +138,24 @@ function EstadoDelTiempo() {
                 </select>
               </div>
 
-                <input
-                  type="submit"
-                  value="Buscar"
-                  className='bg-blue-400 text-white font-semibold p-2 w-1/2 m-auto mt-7 rounded-md hover:cursor-pointer'
-                />
+              <input
+                type="submit"
+                value="Buscar"
+                className='bg-blue-400 text-white font-semibold p-2 w-1/2 m-auto mt-7 rounded-md hover:cursor-pointer'
+              />
             </form>
           </div>
 
           {/* results row */}
-          {mostrarDatos &&
+          <div className='mb-10'>
+            {error ?
+              <Error>Todos los campos son necesarios</Error>
+              :
+              <></>
+            }
 
-            <div className='mb-10'>
+            {mostrarDatos &&
+
               <div className='bg-slate-100 shadow-md w-1/2 m-auto p-3'>
                 <h3 className='text-2xl font-medium text-center text-[#112D4E]'>{ciudad.name}</h3>
 
@@ -153,13 +163,13 @@ function EstadoDelTiempo() {
 
                 <ul className='flex flex-col gap-3 items-center text-[#112D4E] italic'>
                   <li>Temperatura:  {ciudad.tempc}°</li>
-                  <li>Probabilidad de precipitacion:  {ciudad.probabilityofprecip}%</li>
+                  <li>Probabilidad de precipitación:  {ciudad.probabilityofprecip}%</li>
                   <li>Humedad:  {ciudad.relativehumidity}%</li>
                   <li>Viento: {ciudad.windspeedkm}km</li>
                 </ul>
               </div>
-            </div>
-          }
+            }
+          </div>
 
         </main>
       </div>

@@ -1,14 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 // ROUTES
-import EstadoDelTiempo from "./routes/EstadoDelTiempo"
+import EstadoDelTiempo from "./routes/EstadoDelTiempo";
+import Home from "./routes/Home";
 
 
 const router = createBrowserRouter([
   {
     // FALTA PAG HOME
     path: "/",
-    element: <EstadoDelTiempo/>
+    element: <Home/>
   },
   {
     path: "/weather",
