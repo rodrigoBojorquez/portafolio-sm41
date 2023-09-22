@@ -60,7 +60,7 @@ function EstadoDelTiempo() {
       // uso Set para que no se repitan
       const ciudadesProcesadas = new Set();
 
-      // Filtrar los datos duplicados
+      // Filtrar los datos duplicados, true y false son porque filter filtra en base a eso
       const datosFiltradosUnicos = condicionAtm.results.filter((ciudad) => {
         if (!ciudadesProcesadas.has(ciudad.name)) {
           ciudadesProcesadas.add(ciudad.name);
@@ -95,6 +95,7 @@ function EstadoDelTiempo() {
   useEffect(() => {
 
     if (estadoActual.length > 0) {
+      setDatosFiltrados([])
       consultarDatos();
     }
 
@@ -141,24 +142,21 @@ function EstadoDelTiempo() {
 
                 <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
                 <select
-                  onChange={e => {
-                    setCiudadActual(e.target.value);
-                  }}
+                  onChange={e => {setCiudadActual(e.target.value)}}
                   id='selectCiudad'
                   className='rounded-md text-center py-2'
+                  value={!cargando ? ciudadActual : ""}
                 >
-                  {!cargando ?
-                    <option value="" disabled>-- Selecciona una Ciudad --</option>
-                    :
-                    <option value="">-- Esperando Estado --</option>
-                  }
-                  {
-                    datosFiltrados.map((opcion, key) => (
-                      <option key={key} value={opcion.name}>
-                        {opcion.name}
-                      </option>
-                    ))
-                  }
+                  {!cargando ? (
+                    <option value="">-- Selecciona una Ciudad --</option>
+                  ) : (
+                    <option value="">-- ... --</option>
+                  )}
+                  {datosFiltrados.map((opcion, key) => (
+                    <option key={key} value={opcion.name}>
+                      {opcion.name}
+                    </option>
+                  ))}
                 </select>
 
 
@@ -182,7 +180,7 @@ function EstadoDelTiempo() {
 
             {mostrarDatos &&
 
-              <div className='bg-slate-100 shadow-md w-1/2 m-auto p-3'>
+              <div className='bg-slate-100 shadow-md w-1/2 m-auto p-3 rounded-md'>
                 <h3 className='text-2xl font-medium text-center text-[#112D4E]'>{ciudad.name}</h3>
 
                 <p className='text-center font-medium text-xl text-[#112D4E] mt-2 mb-5'>{ciudad.skydescriptionlong}</p>
