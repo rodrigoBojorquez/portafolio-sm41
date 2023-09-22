@@ -11,7 +11,7 @@ function Home() {
     <>
         <Navbar/>
 
-        <div className='ml-24 p-2'>
+        <div className='ml-24 p-2 bg-slate-200'>
             <Header
                 titulo = "Bienvenido!"
             />
@@ -25,13 +25,11 @@ function Home() {
                 />
 
                 {/* team members row */}
-                <div className='flex flex-col items-center gap-5 my-3'>
-                    <p className='font-lg italic'>En este repositorio subiremos las prácticas de la materia <span className='font-medium text-[#3F72AF]'>Aplicaciones Web orientadas a Servicios</span></p>
-                    
-                   
+                <div className='flex flex-col items-center gap-5 mb-14 mt-3'>
+                    <p className='font-lg italic'>En este repositorio subiremos las prácticas de la materia <span className='font-medium text-[#3F72AF]'>Aplicaciones Web orientadas a Servicios</span></p>      
                 </div>
             </main>
-            {/* <Footer/> */}
+            <Footer/>
         </div>
     </>
   )

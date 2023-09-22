@@ -42,7 +42,7 @@ function EstadoDelTiempo() {
     { id: 32, name: 'Zacatecas' }
   ];
 
-  const [cargando, setCargando] = useState(false);
+  const [cargando, setCargando] = useState(true);
   const [datosFiltrados, setDatosFiltrados] = useState([])
   const [ciudad, setCiudad] = useState({});
   const [mostrarDatos, setMostrarDatos] = useState(false);
@@ -60,7 +60,7 @@ function EstadoDelTiempo() {
       setCargando(false)
     } catch (error) {
       // Manejar errores aquí, por ejemplo:
-      console.error("Error al consultar datos:", error);
+      console.error("Error al consultar datos");
     }
   };
 
@@ -79,6 +79,7 @@ function EstadoDelTiempo() {
   }
 
   useEffect(() => {
+    setDatosFiltrados([])
     consultarDatos();
 
   }, [estadoActual])
@@ -88,7 +89,7 @@ function EstadoDelTiempo() {
       <Navbar />
 
       {/* se recorre a la derecha por la navbar  */}
-      <div className="ml-24 p-2">
+      <div className="ml-24 p-2 bg-slate-200">
         <Header
           titulo={"Estado del tiempo"}
         />
@@ -120,30 +121,30 @@ function EstadoDelTiempo() {
                 </select>
               </div>
               <div className='flex flex-col my-4 w-10/12'>
-                { !cargando ?
-                  <>
-                    <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
-                    <select
-                      onChange={e => {
-                        setCiudadActual(e.target.value);
-                      }}
-                      id='selectCiudad'
-                      className='rounded-md text-center py-2'
-                    >
-                      <option value="">-- Selecciona una Ciudad --</option>
-                      {
-                        datosFiltrados.map(opcion => (
-                          <option key={opcion.id} value={opcion.name}>
-                            {opcion.name}
-                          </option>
-                        ))
-                      }
-                    </select>
-                  </>
-                :
-                  <>
-                  </>
-                }
+
+                <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
+                <select
+                  onChange={e => {
+                    setCiudadActual(e.target.value);
+                  }}
+                  id='selectCiudad'
+                  className='rounded-md text-center py-2'
+                >
+                  { !cargando ?
+                    <option value="">-- Selecciona una Ciudad --</option>
+                    :
+                    <option value="">-- Esperando Estado --</option>
+                  }
+                  {
+                    datosFiltrados.map((opcion, key) => (
+                      <option key={key} value={opcion.name}>
+                        {opcion.name}
+                      </option>
+                    ))
+                  }
+                </select>
+
+
               </div>
 
               <input
