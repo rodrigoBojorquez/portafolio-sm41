@@ -6,7 +6,7 @@ function Footer() {
       <div className="mx-auto w-full max-w-screen-xl p-8 py-6 lg:py-8">
         <div className="md:flex md:flex-col md:items-center">
 
-          <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white text-center">Equipo</h2>
+          <h2 className="mb-6 text-md font-semibold text-gray-900 uppercase dark:text-gray-400 text-center">Equipo</h2>
           <ul className="text-gray-500 dark:text-gray-400 font-medium">
             <li className="mb-4 ">
               <a className="hover:underline">Bojorquez Rodrigo Noe</a>
