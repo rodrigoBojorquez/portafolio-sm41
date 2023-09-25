@@ -151,7 +151,7 @@ function EstadoDelTiempo() {
                   {!cargando ? (
                     <option value="">-- Selecciona una Ciudad --</option>
                   ) : (
-                    <option value="">-- ... --</option>
+                    <option value="" disabled>-- ... --</option>
                   )}
                   {datosFiltrados.map((opcion, key) => (
                     <option key={key} value={opcion.name}>
