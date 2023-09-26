@@ -164,6 +164,7 @@ function EstadoDelTiempo() {
               </div>
 
               <input
+                disabled={cargando}
                 type="submit"
                 value="Buscar"
                 className='bg-blue-400 text-white font-semibold p-2 w-1/2 m-auto mt-7 rounded-md hover:cursor-pointer'
