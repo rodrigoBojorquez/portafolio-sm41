@@ -15,7 +15,7 @@ function Home() {
 
         <div className='ml-24 p-2 bg-slate-200'>
             <Header
-                titulo = "Bienvenido!"
+                titulo = "Dashboard"
             />
             <main> 
                 <img 

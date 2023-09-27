@@ -102,7 +102,7 @@ function EstadoDelTiempo() {
       consultarDatos();
     }
 
-
+      // eslint-disable-next-line
   }, [estadoActual])
 
   return (
