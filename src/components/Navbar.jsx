@@ -16,6 +16,7 @@ function Navbar() {
             <ul className='flex flex-col items-center gap-3'>
                 {/* ir añadiendo los links de otras rutas aqui  */}
                 <li><Link to="/weather"><img src={weatherIcon} alt='Estado del tiempo' className='transform duration-500 hover:scale-105'/></Link></li>
+                {/* <li className='text-slate-100 font-medium text-xl'><Link to="/login">Login</Link></li> */}
             </ul>
         </nav>
     )

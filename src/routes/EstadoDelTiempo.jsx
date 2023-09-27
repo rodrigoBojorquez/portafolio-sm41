@@ -81,15 +81,17 @@ function EstadoDelTiempo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (estadoActual.length > 0 && ciudadActual.length > 0) {
-      const ciudadSeleccionada = datosFiltrados.find(ciudad => ciudad.name === ciudadActual);
+
+    const ciudadSeleccionada = datosFiltrados.find(ciudad => ciudad.name === ciudadActual);
+
+    if (ciudadSeleccionada) {
       setCiudad(ciudadSeleccionada);
-      setMostrarDatos(true);
       setError(false);
+      setMostrarDatos(true);
     }
     else {
-      setMostrarDatos(false);
       setError(true);
+      setMostrarDatos(false);
     }
   }
 
@@ -151,7 +153,7 @@ function EstadoDelTiempo() {
                   {!cargando ? (
                     <option value="">-- Selecciona una Ciudad --</option>
                   ) : (
-                    <option value="" disabled>-- ... --</option>
+                    <option value="" disabled>-- Cargando Ciudades --</option>
                   )}
                   {datosFiltrados.map((opcion, key) => (
                     <option key={key} value={opcion.name}>
