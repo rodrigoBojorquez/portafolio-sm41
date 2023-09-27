@@ -23,7 +23,7 @@ function Formulario() {
                 id="username" 
 
                 // INTERESANTE 
-                onChange={e => setCampos({... campos, usuario: e.target.value})}
+                onChange={e => setCampos({...campos, usuario: e.target.value})}
                 />
             </div>
 
@@ -33,7 +33,7 @@ function Formulario() {
                 type="text" 
                 placeholder='Contraseña' 
                 id="password" 
-                onChange={e => setCampos({... campos, contrasena: e.target.value})}
+                onChange={e => setCampos({...campos, contrasena: e.target.value})}
                 />
             </div>
 

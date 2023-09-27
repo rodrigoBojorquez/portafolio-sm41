@@ -115,16 +115,16 @@ function EstadoDelTiempo() {
           titulo={"Estado del tiempo"}
         />
 
-        <main>
+        <main className='flex'>
 
           {/* form row  */}
-          <div className='flex justify-center my-10'>
+          <div className='flex flex-col items-center my-10 w-1/2'>
             <form
               onSubmit={handleSubmit}
-              className='bg-slate-100 shadow-lg w-1/3 p-5 rounded-md flex flex-col items-center'
+              className='bg-slate-100 shadow-lg w-4/5 p-5 rounded-md flex flex-col items-center'
             >
-              <h3 className='text-center text-2xl text-[#112D4E]'>Consulta el estado del tiempo</h3>
-              <div className='flex flex-col my-4 w-10/12'>
+              <h3 className='text-center mb-5 font-medium text-2xl text-[#112D4E]'>Consulta el estado del tiempo</h3>
+              <div className='flex flex-col gap-3 my-4 w-10/12'>
                 <label htmlFor="selectEstado" className='text-xl text-[#112D4E]'>Estado</label>
                 <select
                   onChange={e => setEstadoActual(e.target.value)}
@@ -141,11 +141,11 @@ function EstadoDelTiempo() {
                   }
                 </select>
               </div>
-              <div className='flex flex-col my-4 w-10/12'>
+              <div className='flex flex-col gap-3 my-4 w-10/12'>
 
                 <label htmlFor="selectCiudad" className='text-xl text-[#112D4E]'>Ciudad</label>
                 <select
-                  onChange={e => {setCiudadActual(e.target.value)}}
+                  onChange={e => { setCiudadActual(e.target.value) }}
                   id='selectCiudad'
                   className='rounded-md text-center py-2'
                   value={!cargando ? ciudadActual : ""}
@@ -172,36 +172,51 @@ function EstadoDelTiempo() {
                 className='bg-blue-400 text-white font-semibold p-2 w-1/2 m-auto mt-7 rounded-md hover:cursor-pointer'
               />
             </form>
-          </div>
 
-          {/* results row */}
-          <div className='mb-10'>
-            {cargando && 
-              <div className='my-3'>
-                <Cargando/>
+            {cargando &&
+              <div className='mt-7 w-3/5'>
+                <Cargando />
               </div>
             }
             {error ?
-              <Error>Todos los campos son necesarios</Error>
+              <div className='w-3/5 mt-7'>
+                <Error>Todos los campos son necesarios</Error>
+              </div>
               :
               <></>
             }
+          </div>
+
+          {/* results row */}
+          <div className='flex items-center justify-center w-1/2'>
 
             {mostrarDatos &&
 
               // from-sky-500 from-10% to-blue-300 to-90%
 
-              <div className='bg-gradient-to-b from-sky-500 from-10% to-indigo-400 to-90% shadow-md w-2/5 m-auto p-6 rounded-md'>
+              <div className='bg-gradient-to-b from-sky-500 from-10% to-indigo-400 to-90% shadow-md w-4/5 m-auto p-10 rounded-md'>
                 <h3 className='text-4xl font-medium text-center mb-2 text-slate-200'>{ciudad.name}</h3>
 
                 <p className='text-6xl font-light text-center text-slate-200'>{ciudad.tempc}°</p>
 
-                <p className='text-center font-medium italic text-xl text-slate-200 mt-2 mb-5'>{ciudad.skydescriptionlong}</p>
+                <p className='text-center font-medium italic text-2xl text-slate-200 mt-2 mb-10'>{ciudad.skydescriptionlong}</p>
 
-                <div className='flex flex-col gap-3 items-center font-medium italic text-lg  text-slate-200'>
-                  <p>Precipitación:  {ciudad.probabilityofprecip}mm</p>
-                  <p>Humedad:  {ciudad.relativehumidity}%</p>
-                  <p>Viento: {ciudad.windspeedkm}km/h</p>
+                {/* DISPLAY DE INFORMACION SECUNDARIA  */}
+                <div className='grid grid-cols-3 justify-items-center gap-3 font-medium italic text-lg  text-slate-200'>
+                  <div className='flex flex-col items-center gap-2'>
+                    <p>Precipitación: </p>     
+                    <strong className='text-xl'>{ciudad.probabilityofprecip}mm</strong>
+                  </div>
+
+                  <div className='flex flex-col items-center gap-2'>
+                    <p>Humedad:</p>                   
+                    <strong className='text-xl'>{ciudad.relativehumidity}%</strong>
+                  </div>
+
+                  <div className='flex flex-col items-center gap-2'>
+                    <p>Viento:</p>      
+                    <strong className='text-xl'>{ciudad.windspeedkm}km/h</strong>
+                  </div>
                 </div>
               </div>
             }
